@@ -7,6 +7,7 @@ vim.o.mouse = 'a' -- Enable mouse mode
 vim.o.autoindent = true -- Keep the indentation of the previous line
 vim.o.ignorecase = true -- Case-insensitive search unless \C or capital letter in search
 vim.o.smartcase = true
+vim.o.showmode = false -- We don't need to see things like -- INSERT -- anymore (default: true) b/c lualine handles this
 
 vim.o.shiftwidth = 4  -- Number of spaces inserted per indentation
 vim.o.tabstop = 4  -- Number of spaces inserted per tab
