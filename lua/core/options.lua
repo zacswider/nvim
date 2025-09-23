@@ -18,6 +18,7 @@ vim.o.scrolloff = 99 -- Minimal number of screen lines to keep above and below t
 vim.o.sidescrolloff = 8 -- Minimal number of screen columns either side of cursor if wrap is `false` (default: 0)
 
 vim.o.cursorline = true -- Highlight the current line (default: false)
+vim.o.signcolumn = 'yes' -- Always show the sign column to prevent screen shifting (default: 'auto')
 
 vim.o.splitbelow = true -- Force all horizontal splits to go below current window (default: false)
 vim.o.splitright = true -- Force all vertical splits to go to the right of current window (default: false)
