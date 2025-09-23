@@ -1,3 +1,7 @@
+-- Set leaders before anything else
+vim.g.mapleader = ' '
+vim.g.maplocalleader = ' '
+
 require 'core.options'
 require 'core.keymaps'
 
@@ -38,4 +42,8 @@ require('lazy').setup {
   require 'plugins.indentblankline',
   require 'plugins.misc',
   require 'plugins.markview',
+  require 'plugins.notebook',
 }
+
+-- Load autocmds
+require 'autocmds.molten_outputs'
