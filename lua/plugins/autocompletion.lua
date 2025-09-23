@@ -90,6 +90,14 @@ return {
     --
     -- See the fuzzy documentation for more information
     fuzzy = { implementation = 'prefer_rust_with_warning' },
+
+    -- Enable signature help (experimental but essential for proper LSP experience)
+    signature = { 
+      enabled = true,
+      window = {
+        show_documentation = true, -- Show both signature and documentation
+      },
+    },
   },
   opts_extend = { 'sources.default' },
 }
