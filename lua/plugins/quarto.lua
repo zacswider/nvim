@@ -2,6 +2,7 @@
 return {
   {
     'quarto-dev/quarto-nvim',
+    ft = { 'quarto', 'markdown' }, -- activate for both quarto and markdown files
     dependencies = {
       'jmbuhr/otter.nvim',
       'nvim-treesitter/nvim-treesitter',
