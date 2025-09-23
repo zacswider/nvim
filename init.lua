@@ -39,5 +39,4 @@ require('lazy').setup {
   require 'plugins.misc',
   require 'plugins.markview',
   require 'plugins.notebook',
-  require 'plugins.quarto',
 }
