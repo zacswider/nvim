@@ -51,8 +51,14 @@ return {
     },
 
     -- (Default) Only show the documentation popup when manually triggered
-    completion = { 
-      documentation = { auto_show = true },
+    completion = {
+      documentation = {
+        auto_show = true,
+        auto_show_delay_ms = 10,
+      },
+      ghost_text = {
+        enabled = true,
+      },
       trigger = {
         prefetch_on_insert = true,
         show_on_keyword = true,
@@ -94,7 +100,7 @@ return {
     fuzzy = { implementation = 'prefer_rust_with_warning' },
 
     -- Enable signature help (experimental but essential for proper LSP experience)
-    signature = { 
+    signature = {
       enabled = true,
       window = {
         show_documentation = true, -- Show both signature and documentation
