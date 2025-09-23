@@ -132,25 +132,16 @@ return {
     local servers = {
       ts_ls = {},
       ruff = {},
-      pylsp = {
+      basedpyright = {
         settings = {
-          pylsp = {
-            plugins = {
-              -- Disable linting/formatting since you have ruff
-              pyflakes = { enabled = false },
-              pycodestyle = { enabled = false },
-              autopep8 = { enabled = false },
-              yapf = { enabled = false },
-              mccabe = { enabled = false },
-              pylsp_mypy = { enabled = false },
-              pylsp_black = { enabled = false },
-              pylsp_isort = { enabled = false },
-              -- Enable completion and other core features
-              jedi_completion = { enabled = true },
-              jedi_hover = { enabled = true },
-              jedi_references = { enabled = true },
-              jedi_signature_help = { enabled = true },
-              jedi_symbols = { enabled = true },
+          basedpyright = {
+            analysis = {
+              typeCheckingMode = "basic",
+              autoImportCompletions = true,
+              diagnosticSeverityOverrides = {
+                reportUnusedImport = "information",
+                reportUnusedVariable = "information",
+              },
             },
           },
         },

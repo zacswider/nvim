@@ -58,6 +58,8 @@ return {
         show_on_keyword = true,
         show_on_trigger_character = true,
         show_on_accept_on_trigger_character = true,
+        show_on_x_blocked_trigger_characters = { ' ', '\n', '\t' },
+        show_in_snippet = true,
       },
       list = {
         selection = { preselect = true, auto_insert = true },
