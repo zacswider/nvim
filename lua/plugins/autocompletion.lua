@@ -28,7 +28,7 @@ return {
     keymap = {
       ['<C-space>'] = { 'show', 'show_documentation', 'hide_documentation' },
       ['<C-e>'] = { 'hide', 'fallback' },
-      ['<C-y>'] = { 'select_and_accept', 'fallback' },
+      ['<CR>'] = { 'accept', 'fallback' },
 
       ['<Up>'] = { 'select_prev', 'fallback' },
       ['<Down>'] = { 'select_next', 'fallback' },
@@ -38,8 +38,8 @@ return {
       ['<C-b>'] = { 'scroll_documentation_up', 'fallback' },
       ['<C-f>'] = { 'scroll_documentation_down', 'fallback' },
 
-      ['<Tab>'] = { 'snippet_forward', 'fallback' },
-      ['<S-Tab>'] = { 'snippet_backward', 'fallback' },
+      ['<Tab>'] = { 'select_next', 'snippet_forward', 'fallback' },
+      ['<S-Tab>'] = { 'select_prev', 'snippet_backward', 'fallback' },
 
       ['<C-k>'] = { 'show_signature', 'hide_signature', 'fallback' },
     },
@@ -51,12 +51,37 @@ return {
     },
 
     -- (Default) Only show the documentation popup when manually triggered
-    completion = { documentation = { auto_show = false } },
+    completion = { 
+      documentation = { auto_show = true },
+      trigger = {
+        prefetch_on_insert = true,
+        show_on_keyword = true,
+        show_on_trigger_character = true,
+        show_on_accept_on_trigger_character = true,
+      },
+      list = {
+        selection = { preselect = true, auto_insert = true },
+      },
+    },
 
     -- Default list of enabled providers defined so that you can extend it
     -- elsewhere in your config, without redefining it, due to `opts_extend`
     sources = {
-      default = { 'lsp', 'path', 'snippets', 'buffer' },
+      default = { 'lsp', 'snippets', 'path', 'buffer' },
+      providers = {
+        lsp = {
+          name = 'LSP',
+          module = 'blink.cmp.sources.lsp',
+          score_offset = 1000, -- Prioritize LSP completions
+        },
+        buffer = {
+          name = 'Buffer',
+          module = 'blink.cmp.sources.buffer',
+          score_offset = -3, -- Lower priority for buffer completions
+          min_keyword_length = 4, -- Only show buffer completions for longer words
+          keyword_pattern = [[\k\+]], -- Only match keyword characters
+        },
+      },
     },
 
     -- (Default) Rust fuzzy matcher for typo resistance and significantly better performance
