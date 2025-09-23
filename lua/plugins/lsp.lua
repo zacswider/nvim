@@ -26,8 +26,8 @@ return {
       },
     },
 
-    -- Allows extra capabilities provided by nvim-cmp
-    'hrsh7th/cmp-nvim-lsp',
+    -- Allows extra capabilities provided by blink.cmp
+    'saghen/blink.cmp',
   },
   config = function()
     vim.api.nvim_create_autocmd('LspAttach', {
@@ -117,10 +117,10 @@ return {
 
     -- LSP servers and clients are able to communicate to each other what features they support.
     -- By default, Neovim doesn't support everything that is in the LSP specification.
-    -- When you add nvim-cmp, luasnip, etc. Neovim now has *more* capabilities.
-    -- So, we create new capabilities with nvim cmp, and then broadcast that to the servers.
+    -- When you add blink.cmp, etc. Neovim now has *more* capabilities.
+    -- So, we create new capabilities with blink.cmp, and then broadcast that to the servers.
     local capabilities = vim.lsp.protocol.make_client_capabilities()
-    capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
+    capabilities = vim.tbl_deep_extend('force', capabilities, require('blink.cmp').get_lsp_capabilities())
 
     -- Enable the following language servers
     --
@@ -132,18 +132,23 @@ return {
     local servers = {
       ts_ls = {},
       ruff = {},
-      pylsp = {
+      basedpyright = {
         settings = {
-          pylsp = {
-            plugins = {
-              pyflakes = { enabled = false },
-              pycodestyle = { enabled = false },
-              autopep8 = { enabled = false },
-              yapf = { enabled = false },
-              mccabe = { enabled = false },
-              pylsp_mypy = { enabled = false },
-              pylsp_black = { enabled = false },
-              pylsp_isort = { enabled = false },
+          basedpyright = {
+            analysis = {
+              typeCheckingMode = "basic",
+              autoImportCompletions = true,
+              diagnosticSeverityOverrides = {
+                reportUnusedImport = "information",
+                reportUnusedVariable = "information",
+              },
+            },
+          },
+          python = {
+            analysis = {
+              autoSearchPaths = true,
+              useLibraryCodeForTypes = true,
+              autoImportCompletions = true,
             },
           },
         },
@@ -189,7 +194,7 @@ return {
     for server, cfg in pairs(servers) do
       -- For each LSP server (cfg), we merge:
       -- 1. A fresh empty table (to avoid mutating capabilities globally)
-      -- 2. Your capabilities object with Neovim + cmp features
+       -- 2. Your capabilities object with Neovim + blink.cmp features
       -- 3. Any server-specific cfg.capabilities if defined in `servers`
       cfg.capabilities = vim.tbl_deep_extend('force', {}, capabilities, cfg.capabilities or {})
 
