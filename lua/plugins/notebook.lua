@@ -7,8 +7,10 @@ return {
     init = function()
       -- these are examples, not defaults. Please see the readme
       vim.g.molten_image_provider = 'image.nvim'
-      vim.g.molten_output_win_max_height = 20
+      vim.g.molten_output_win_max_height = 50 -- increased from 20
       vim.g.molten_virt_lines_off_by_1 = true -- make it so the output shows up below the \`\`\` delimiter
+      vim.g.molten_wrap_output = true
+      vim.g.molten_auto_open_output = false
       vim.keymap.set('n', '<localleader>eo', ':MoltenEvaluateOperator<CR>', { desc = 'evaluate operator', silent = true })
       vim.keymap.set('n', '<localleader>os', ':noautocmd MoltenEnterOutput<CR>', { desc = 'open output window', silent = true })
       vim.keymap.set('n', '<localleader>rr', ':MoltenReevaluateCell<CR>', { desc = 're-eval cell', silent = true })
@@ -22,12 +24,22 @@ return {
     '3rd/image.nvim',
     opts = {
       backend = 'kitty', -- whatever backend you would like to use
-      max_width = 100,
-      max_height = 12,
-      max_height_window_percentage = math.huge,
-      max_width_window_percentage = math.huge,
+      max_width = 400,
+      max_height = 400,
+      max_height_window_percentage = 80,
+      max_width_window_percentage = 80,
       window_overlap_clear_enabled = true, -- toggles images when windows are overlapped
       window_overlap_clear_ft_ignore = { 'cmp_menu', 'cmp_docs', '' },
+      -- Add more image.nvim options for better display
+      integrations = {
+        markdown = {
+          enabled = true,
+          clear_in_insert_mode = false,
+          download_remote_images = true,
+          only_render_image_at_cursor = false,
+          filetypes = { 'markdown', 'vimwiki' },
+        },
+      },
     },
   },
   {
