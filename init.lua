@@ -38,4 +38,5 @@ require('lazy').setup {
   require 'plugins.indentblankline',
   require 'plugins.misc',
   require 'plugins.markview',
+  require 'plugins.notebook',
 }
