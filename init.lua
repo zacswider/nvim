@@ -40,3 +40,6 @@ require('lazy').setup {
   require 'plugins.markview',
   require 'plugins.notebook',
 }
+
+-- Load autocmds
+require 'autocmds.molten_outputs'
