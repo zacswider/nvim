@@ -102,8 +102,30 @@ return {
     -- Enable signature help (experimental but essential for proper LSP experience)
     signature = {
       enabled = true,
+      trigger = {
+        enabled = true,
+        show_on_trigger_character = true,
+        show_on_insert_on_trigger_character = true,
+      },
       window = {
+        min_width = 20,
+        max_width = 120,
+        max_height = 20, -- Increased to accommodate multi-line formatting
+        border = 'rounded',
+        winblend = 0,
         show_documentation = true, -- Show both signature and documentation
+        treesitter_highlighting = true,
+        -- Custom drawing function for better parameter formatting
+        -- draw = function(opts)
+        --   -- Try to format parameters on separate lines
+        --   local content = opts.content
+        --   if content and type(content) == 'string' then
+        --     -- Replace commas with newlines for better readability
+        --     content = content:gsub(', ([%w_]+:)', ',\n  %1')
+        --   end
+        --   opts.content = content
+        --   opts.default_implementation()
+        -- end,
       },
     },
   },

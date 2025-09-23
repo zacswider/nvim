@@ -144,6 +144,13 @@ return {
               },
             },
           },
+          python = {
+            analysis = {
+              autoSearchPaths = true,
+              useLibraryCodeForTypes = true,
+              autoImportCompletions = true,
+            },
+          },
         },
       },
       html = { filetypes = { 'html', 'twig', 'hbs' } },
