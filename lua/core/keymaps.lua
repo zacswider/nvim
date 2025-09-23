@@ -1,5 +1,4 @@
-vim.g.mapleader = ' ' -- set leader
-vim.g.maplocaleader = ' '
+-- Leaders are set in init.lua
 
 -- Disable the spacebar key's default behavior in Normal and Visual modes
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })

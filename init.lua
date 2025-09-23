@@ -1,3 +1,7 @@
+-- Set leaders before anything else
+vim.g.mapleader = ' '
+vim.g.maplocalleader = ' '
+
 require 'core.options'
 require 'core.keymaps'
 
