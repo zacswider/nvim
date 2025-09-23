@@ -37,4 +37,5 @@ require('lazy').setup {
   require 'plugins.alpha',
   require 'plugins.indentblankline',
   require 'plugins.misc',
+  require 'plugins.markview',
 }
