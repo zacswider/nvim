@@ -11,6 +11,8 @@ return {
       vim.g.molten_virt_lines_off_by_1 = true -- make it so the output shows up below the \`\`\` delimiter
       vim.g.molten_wrap_output = true
       vim.g.molten_auto_open_output = false
+      vim.g.molten_output_win_border = { '', '─', '', '', '', '─', '', '' }
+      vim.g.molten_output_win_style = 'minimal'
       vim.keymap.set('n', '<localleader>eo', ':MoltenEvaluateOperator<CR>', { desc = 'evaluate operator', silent = true })
       vim.keymap.set('n', '<localleader>os', ':noautocmd MoltenEnterOutput<CR>', { desc = 'open output window', silent = true })
       vim.keymap.set('n', '<localleader>rr', ':MoltenReevaluateCell<CR>', { desc = 're-eval cell', silent = true })
