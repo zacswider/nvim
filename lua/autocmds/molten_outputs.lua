@@ -46,7 +46,11 @@ vim.api.nvim_create_autocmd('BufWritePost', {
   pattern = { '*.ipynb' },
   callback = function()
     if require('molten.status').initialized() == 'Molten' then
-      vim.cmd 'MoltenExportOutput!'
+      -- Use pcall to prevent the nbformat error from crashing nvim
+      -- Silently handle any export errors - the notebook still saves correctly via jupytext
+      pcall(function()
+        vim.cmd 'MoltenExportOutput!'
+      end)
     end
   end,
 })

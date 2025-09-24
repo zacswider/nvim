@@ -9,17 +9,18 @@ vim.api.nvim_create_autocmd({'TextChanged', 'TextChangedI'}, {
   end,
 })
 
--- Suppress treesitter error messages
+-- Use a safer approach to handle treesitter errors without breaking molten
 vim.api.nvim_create_autocmd('User', {
   pattern = 'VimEnter',
   callback = function()
-    -- Override treesitter error handler to be less noisy
-    local original_notify = vim.notify
-    vim.notify = function(msg, level, opts)
-      if type(msg) == 'string' and msg:match('treesitter') and msg:match('Invalid.*index') then
-        return -- Suppress this specific error
-      end
-      original_notify(msg, level, opts)
-    end
+    -- Set up a minimal error handler that doesn't interfere with communication
+    vim.api.nvim_create_autocmd('CmdlineEnter', {
+      callback = function()
+        -- Just suppress the specific treesitter errors from being printed
+        if vim.v.errmsg and vim.v.errmsg:match('treesitter.*Invalid.*index') then
+          vim.v.errmsg = ""
+        end
+      end,
+    })
   end,
 })

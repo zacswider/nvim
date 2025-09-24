@@ -20,6 +20,16 @@ return {
       vim.keymap.set('n', '<localleader>oh', ':MoltenHideOutput<CR>', { desc = 'close output window', silent = true })
       vim.keymap.set('n', '<localleader>md', ':MoltenDelete<CR>', { desc = 'delete Molten cell', silent = true })
       vim.keymap.set('n', '<localleader>mi', ':MoltenInterrupt<CR>', { desc = 'interrupt running cell', silent = true })
+      vim.keymap.set('n', '<localleader>ex', function()
+        local success, error_msg = pcall(function()
+          vim.cmd 'MoltenExportOutput!'
+        end)
+        if not success then
+          vim.api.nvim_echo({{"Export failed: " .. tostring(error_msg), "ErrorMsg"}}, true, {})
+        else
+          vim.api.nvim_echo({{"Outputs exported successfully", "Normal"}}, false, {})
+        end
+      end, { desc = 'export outputs to ipynb (safe)', silent = true })
     end,
   },
   {

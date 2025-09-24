@@ -23,13 +23,7 @@ return {
       sign = true,
       sign_hl = nil,
 
-      -- Language names
-      language_names = {
-        python = 'Python',
-        rust = 'Rust',
-        javascript = 'JavaScript',
-        typescript = 'TypeScript',
-      },
+      -- Language names removed due to deprecation warning
     },
 
     -- Configure inline code
