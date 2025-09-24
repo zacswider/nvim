@@ -47,3 +47,4 @@ require('lazy').setup {
 
 -- Load autocmds
 require 'autocmds.molten_outputs'
+require 'autocmds.notebook_highlight_errors'
