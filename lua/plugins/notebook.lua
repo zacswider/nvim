@@ -17,6 +17,7 @@ return {
       vim.keymap.set('v', '<localleader>r', ':<C-u>MoltenEvaluateVisual<CR>gv', { desc = 'execute visual selection', silent = true })
       vim.keymap.set('n', '<localleader>oh', ':MoltenHideOutput<CR>', { desc = 'close output window', silent = true })
       vim.keymap.set('n', '<localleader>md', ':MoltenDelete<CR>', { desc = 'delete Molten cell', silent = true })
+      vim.keymap.set('n', '<localleader>mi', ':MoltenInterrupt<CR>', { desc = 'interrupt running cell', silent = true })
     end,
   },
   {
