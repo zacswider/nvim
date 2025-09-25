@@ -11,4 +11,10 @@ clone with `git clone git@github.com:zacswider/nvim.git "${XDG_CONFIG_HOME:-$HOM
 
 ## install luarocks
 
+- `brew install luarocks`
 - `sudo apt install luarocks`
+
+## will probably need imagemagick for image renering in notebooks
+
+- `brew install imagemagick`
+- `sudo apt install imagemagick`
