@@ -53,3 +53,6 @@ vim.keymap.set('v', 'p', '"_dP', opts)
 -- Clear highlights on search when pressing <Esc> in normal mode
 --  See `:help hlsearch`
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
+
+-- Diagnostics
+vim.keymap.set('n', '<leader>do', '<cmd>lua vim.diagnostic.open_float()<CR>', { desc = 'open diagnostic float', noremap = true, silent = true })

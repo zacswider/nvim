@@ -51,11 +51,12 @@ return {
     },
 
     -- (Default) Only show the documentation popup when manually triggered
-    completion = {
-      documentation = {
-        auto_show = true,
-        auto_show_delay_ms = 10,
-      },
+     completion = {
+       debounce_ms = 10,
+       documentation = {
+         auto_show = true,
+         auto_show_delay_ms = 10,
+       },
       ghost_text = {
         enabled = true,
       },
