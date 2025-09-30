@@ -88,7 +88,6 @@ return {
           module = 'blink.cmp.sources.buffer',
           score_offset = -3, -- Lower priority for buffer completions
           min_keyword_length = 4, -- Only show buffer completions for longer words
-          keyword_pattern = [[\k\+]], -- Only match keyword characters
         },
       },
     },

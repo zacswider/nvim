@@ -11,6 +11,8 @@ return {
       vim.g.molten_virt_lines_off_by_1 = true -- make it so the output shows up below the \`\`\` delimiter
       vim.g.molten_wrap_output = true
       vim.g.molten_auto_open_output = false
+      vim.g.molten_output_win_border = { '', '─', '', '', '', '─', '', '' }
+      vim.g.molten_output_win_style = 'minimal'
       vim.keymap.set('n', '<localleader>eo', ':MoltenEvaluateOperator<CR>', { desc = 'evaluate operator', silent = true })
       vim.keymap.set('n', '<localleader>os', ':noautocmd MoltenEnterOutput<CR>', { desc = 'open output window', silent = true })
       vim.keymap.set('n', '<localleader>rr', ':MoltenReevaluateCell<CR>', { desc = 're-eval cell', silent = true })
@@ -18,6 +20,17 @@ return {
       vim.keymap.set('n', '<localleader>oh', ':MoltenHideOutput<CR>', { desc = 'close output window', silent = true })
       vim.keymap.set('n', '<localleader>md', ':MoltenDelete<CR>', { desc = 'delete Molten cell', silent = true })
       vim.keymap.set('n', '<localleader>mi', ':MoltenInterrupt<CR>', { desc = 'interrupt running cell', silent = true })
+      vim.keymap.set('n', '<localleader>mr', ':MoltenRestart<CR>', { desc = 'Restart the kernel', silent = true })
+      vim.keymap.set('n', '<localleader>ex', function()
+        local success, error_msg = pcall(function()
+          vim.cmd 'MoltenExportOutput!'
+        end)
+        if not success then
+          vim.api.nvim_echo({ { 'Export failed: ' .. tostring(error_msg), 'ErrorMsg' } }, true, {})
+        else
+          vim.api.nvim_echo({ { 'Outputs exported successfully', 'Normal' } }, false, {})
+        end
+      end, { desc = 'export outputs to ipynb (safe)', silent = true })
     end,
   },
   {
