@@ -26,9 +26,9 @@ return {
           vim.cmd 'MoltenExportOutput!'
         end)
         if not success then
-          vim.api.nvim_echo({{"Export failed: " .. tostring(error_msg), "ErrorMsg"}}, true, {})
+          vim.api.nvim_echo({ { 'Export failed: ' .. tostring(error_msg), 'ErrorMsg' } }, true, {})
         else
-          vim.api.nvim_echo({{"Outputs exported successfully", "Normal"}}, false, {})
+          vim.api.nvim_echo({ { 'Outputs exported successfully', 'Normal' } }, false, {})
         end
       end, { desc = 'export outputs to ipynb (safe)', silent = true })
     end,
