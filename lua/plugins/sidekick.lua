@@ -1,5 +1,6 @@
 return {
   'folke/sidekick.nvim',
+  event = 'VeryLazy', -- Load the plugin early so health check works
   opts = {
     -- add any options here
     cli = {
