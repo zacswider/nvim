@@ -130,6 +130,7 @@ return {
     -- - capabilities (table): Override fields in capabilities. Can be used to disable certain LSP features.
     -- - settings (table): Override the default settings passed when initializing the server.
     local servers = {
+      copilot = {},
       ts_ls = {},
       ruff = {},
       basedpyright = {
@@ -188,6 +189,7 @@ return {
     local ensure_installed = vim.tbl_keys(servers or {})
     vim.list_extend(ensure_installed, {
       'stylua', -- Used to format Lua code
+      'copilot-language-server', -- Used for AI-powered code suggestions
     })
     require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
