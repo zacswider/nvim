@@ -43,7 +43,9 @@ return {
         function() -- sidekick next edit suggestion
           return require('sidekick').nes_jump_or_apply()
         end,
-        'select_next',
+        function() -- if you are using Neovim's native inline completions
+          return vim.lsp.inline_completion.get()
+        end,
         'fallback',
       },
       ['<S-Tab>'] = { 'select_prev', 'snippet_backward', 'fallback' },
@@ -58,12 +60,12 @@ return {
     },
 
     -- (Default) Only show the documentation popup when manually triggered
-     completion = {
-       debounce_ms = 10,
-       documentation = {
-         auto_show = true,
-         auto_show_delay_ms = 10,
-       },
+    completion = {
+      debounce_ms = 10,
+      documentation = {
+        auto_show = true,
+        auto_show_delay_ms = 10,
+      },
       ghost_text = {
         enabled = true,
       },
