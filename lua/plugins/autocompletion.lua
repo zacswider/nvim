@@ -39,11 +39,11 @@ return {
       ['<C-f>'] = { 'scroll_documentation_down', 'fallback' },
 
       ['<Tab>'] = {
-        'select_next',
         'snippet_forward',
-        function()
+        function() -- sidekick next edit suggestion
           return require('sidekick').nes_jump_or_apply()
         end,
+        'select_next',
         'fallback',
       },
       ['<S-Tab>'] = { 'select_prev', 'snippet_backward', 'fallback' },
