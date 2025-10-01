@@ -39,3 +39,4 @@ vim.opt.runtimepath:remove '/usr/share/vim/vimfiles' -- Separate Vim plugins fro
 
 vim.opt.title = true -- Enable tab title
 vim.opt.titlestring = [[nvim: %{fnamemodify(getcwd(), ':t')} (%{empty(bufname('%')) ? 'No Name' : expand('%:t')})]]
+vim.lsp.inline_completion.enable()
