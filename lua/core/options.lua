@@ -1,7 +1,7 @@
 vim.wo.number = true -- Show line numbers
 vim.o.relativenumber = true -- Show relative line numbers
 vim.o.clipboard = 'unnamedplus' -- Sync clipboard between OS and nvim
-vim.o.wrap = false -- Don't wrap long lines
+vim.o.wrap = true -- Don't wrap long lines
 vim.o.linebreak = true -- Don't split works; companion to wrap
 vim.o.mouse = 'a' -- Enable mouse mode
 vim.o.autoindent = true -- Keep the indentation of the previous line
