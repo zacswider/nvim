@@ -24,8 +24,17 @@ return {
     -- Autoclose parentheses, brackets, quotes, etc.
     'windwp/nvim-autopairs',
     event = 'InsertEnter',
-    config = true,
-    opts = {},
+    config = function()
+      local autopairs = require('nvim-autopairs')
+      autopairs.setup({
+        check_ts = true, -- enable treesitter
+        disable_filetype = { 'TelescopePrompt' },
+        enable_check_bracket_line = false,
+      })
+      
+      -- Note: blink.cmp integration would need to be set up differently
+      -- For now, just use basic autopairs functionality
+    end,
   },
   {
     -- Highlight todo, notes, etc in comments
