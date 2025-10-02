@@ -15,7 +15,7 @@ vim.o.softtabstop = 4 -- Number of spaces that a tab counts for while performing
 vim.o.expandtab = true -- Convert tabs to spaces (default: false)
 
 vim.o.scrolloff = 99 -- Minimal number of screen lines to keep above and below the cursor (default: 0)
-vim.o.sidescrolloff = 8 -- Minimal number of screen columns either side of cursor if wrap is `false` (default: 0)
+vim.o.sidescrolloff = 0 -- Minimal number of screen columns either side of cursor if wrap is `false` (default: 0)
 
 vim.o.cursorline = true -- Highlight the current line (default: false)
 vim.o.signcolumn = 'yes' -- Always show the sign column to prevent screen shifting (default: 'auto')
