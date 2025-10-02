@@ -44,7 +44,8 @@ require('lazy').setup {
   require 'plugins.markview',
   require 'plugins.notebook',
   require 'plugins.sidekick',
-  require 'plugins.copilot',
+  -- require 'plugins.copilot',
+  require 'plugins.toggleterm',
 }
 
 -- Load autocmds
