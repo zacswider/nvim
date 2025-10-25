@@ -62,6 +62,10 @@ return {
             keymaps = {
               ['ib'] = { query = '@code_cell.inner', desc = 'in block' },
               ['ab'] = { query = '@code_cell.outer', desc = 'around block' },
+              ['if'] = { query = '@function.inner', desc = 'in function' },
+              ['af'] = { query = '@function.outer', desc = 'around function' },
+              ['ic'] = { query = '@class.inner', desc = 'in class' },
+              ['ac'] = { query = '@class.outer', desc = 'around class' },
             },
           },
           swap = {

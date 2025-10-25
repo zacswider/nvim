@@ -32,6 +32,7 @@ vim.keymap.set('n', '<leader>v', '<C-w>v', opts) -- split window vertically
 vim.keymap.set('n', '<leader>h', '<C-w>s', opts) -- split window horizontally
 vim.keymap.set('n', '<leader>se', '<C-w>=', opts) -- make split windows equal width & height
 vim.keymap.set('n', '<leader>xs', ':close<CR>', opts) -- close current split window
+vim.keymap.set('n', '<leader>sv', '<C-w>v<C-w>l', opts) -- move buffer to vertical split
 
 -- Navigate between splits
 vim.keymap.set('n', '<C-k>', ':wincmd k<CR>', opts)
@@ -56,3 +57,9 @@ vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
 -- Diagnostics
 vim.keymap.set('n', '<leader>do', '<cmd>lua vim.diagnostic.open_float()<CR>', { desc = 'open diagnostic float', noremap = true, silent = true })
+
+-- Function navigation
+vim.keymap.set('n', '<leader>ft', function() require('nvim-treesitter.textobjects.move').goto_previous_start('@function.outer') end, opts) -- jump to previous function top
+vim.keymap.set('n', '<leader>fb', function() require('nvim-treesitter.textobjects.move').goto_next_end('@function.outer') end, opts) -- jump to next function bottom
+vim.keymap.set('n', '<leader>kt', function() require('nvim-treesitter.textobjects.move').goto_previous_start('@class.outer') end, opts) -- jump to previous class top
+vim.keymap.set('n', '<leader>kb', function() require('nvim-treesitter.textobjects.move').goto_next_end('@class.outer') end, opts) -- jump to next class bottom
