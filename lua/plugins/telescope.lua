@@ -54,6 +54,7 @@ return {
             ['<C-k>'] = require('telescope.actions').move_selection_previous, -- move to prev result
             ['<C-j>'] = require('telescope.actions').move_selection_next, -- move to next result
             ['<C-l>'] = require('telescope.actions').select_default, -- open file
+            ['<CR>'] = require('telescope.actions').select_default, -- open file with Enter key
           },
         },
       },
