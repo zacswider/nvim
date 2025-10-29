@@ -61,10 +61,10 @@ return {
 
     -- (Default) Only show the documentation popup when manually triggered
     completion = {
-      debounce_ms = 10,
+      debounce_ms = 0, -- Remove debounce for instant response
       documentation = {
         auto_show = true,
-        auto_show_delay_ms = 10,
+        auto_show_delay_ms = 0, -- Show documentation immediately
       },
       ghost_text = {
         enabled = true,
@@ -76,9 +76,15 @@ return {
         show_on_accept_on_trigger_character = true,
         show_on_x_blocked_trigger_characters = { ' ', '\n', '\t' },
         show_in_snippet = true,
+        show_immediately = true, -- Show completions immediately
       },
       list = {
         selection = { preselect = true, auto_insert = true },
+        cycle = { from_bottom = true, from_top = true }, -- Faster navigation
+      },
+      menu = {
+        max_items = 50, -- Limit items for faster rendering
+        auto_show = true,
       },
     },
 
@@ -91,12 +97,21 @@ return {
           name = 'LSP',
           module = 'blink.cmp.sources.lsp',
           score_offset = 1000, -- Prioritize LSP completions
+          timeout_ms = 500, -- Faster timeout for LSP responses
+          max_items = 25, -- Limit LSP completions for faster rendering
         },
         buffer = {
           name = 'Buffer',
           module = 'blink.cmp.sources.buffer',
           score_offset = -3, -- Lower priority for buffer completions
-          min_keyword_length = 4, -- Only show buffer completions for longer words
+          min_keyword_length = 3, -- Balanced for performance
+          max_items = 8, -- Limit buffer completions for better performance
+        },
+        path = {
+          name = 'Path',
+          module = 'blink.cmp.sources.path',
+          score_offset = 10, -- Good priority for path completions
+          max_items = 10, -- Limit path completions
         },
       },
     },
