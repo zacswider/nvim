@@ -39,7 +39,7 @@ require('lazy').setup {
   require 'plugins.autoformatting',
   require 'plugins.gitsigns',
   require 'plugins.alpha',
-  require 'plugins.indentblankline',
+  require 'plugins.indentation_and_scope',
   require 'plugins.misc',
   require 'plugins.markview',
   require 'plugins.notebook',
