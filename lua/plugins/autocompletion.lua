@@ -38,16 +38,16 @@ return {
       ['<C-b>'] = { 'scroll_documentation_up', 'fallback' },
       ['<C-f>'] = { 'scroll_documentation_down', 'fallback' },
 
-      ['<Tab>'] = {
-        'snippet_forward',
-        function() -- sidekick next edit suggestion
-          return require('sidekick').nes_jump_or_apply()
-        end,
-        function() -- if you are using Neovim's native inline completions
-          return vim.lsp.inline_completion.get()
-        end,
-        'fallback',
-      },
+      -- ['<Tab>'] = {  -- sidekick autocompletion; trying to disable to see if it helps perf issues
+      --   'snippet_forward',
+      --   function() -- sidekick next edit suggestion
+      --     return require('sidekick').nes_jump_or_apply()
+      --   end,
+      --   function() -- if you are using Neovim's native inline completions
+      --     return vim.lsp.inline_completion.get()
+      --   end,
+      --   'fallback',
+      -- },
       ['<S-Tab>'] = { 'select_prev', 'snippet_backward', 'fallback' },
 
       ['<C-k>'] = { 'show_signature', 'hide_signature', 'fallback' },
@@ -61,23 +61,29 @@ return {
 
     -- (Default) Only show the documentation popup when manually triggered
     completion = {
-      debounce_ms = 10,
+      keyword = {
+        range = 'prefix',
+      },
+      -- debounce_ms = 50,
       documentation = {
         auto_show = true,
-        auto_show_delay_ms = 10,
+        auto_show_delay_ms = 50,
       },
       ghost_text = {
         enabled = true,
       },
       trigger = {
         prefetch_on_insert = true,
+        show_on_backspace = true,
+        show_on_backspace_in_keyword = true,
         show_on_keyword = true,
         show_on_trigger_character = true,
         show_on_accept_on_trigger_character = true,
         show_on_x_blocked_trigger_characters = { ' ', '\n', '\t' },
-        show_in_snippet = true,
+        show_in_snippet = false,
       },
       list = {
+        max_items = 50,
         selection = { preselect = true, auto_insert = true },
       },
     },
@@ -85,18 +91,26 @@ return {
     -- Default list of enabled providers defined so that you can extend it
     -- elsewhere in your config, without redefining it, due to `opts_extend`
     sources = {
-      default = { 'lsp', 'snippets', 'path', 'buffer' },
+      default = {
+        'lsp',
+        -- 'snippets',
+        'path',
+        'buffer',
+      },
       providers = {
         lsp = {
           name = 'LSP',
           module = 'blink.cmp.sources.lsp',
           score_offset = 1000, -- Prioritize LSP completions
+          fallbacks = { 'buffer' },
+          async = true,
+          timeout_ms = 1500,
         },
         buffer = {
           name = 'Buffer',
           module = 'blink.cmp.sources.buffer',
           score_offset = -3, -- Lower priority for buffer completions
-          min_keyword_length = 4, -- Only show buffer completions for longer words
+          min_keyword_length = 2, -- Only show buffer completions for longer words
         },
       },
     },
@@ -106,7 +120,7 @@ return {
     -- when the Rust fuzzy matcher is not available, by using `implementation = "prefer_rust"`
     --
     -- See the fuzzy documentation for more information
-    fuzzy = { implementation = 'prefer_rust_with_warning' },
+    fuzzy = { implementation = 'rust' },
 
     -- Enable signature help (experimental but essential for proper LSP experience)
     signature = {

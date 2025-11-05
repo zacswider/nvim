@@ -139,11 +139,11 @@ return {
         settings = {
           basedpyright = {
             analysis = {
-              typeCheckingMode = "basic",
-              autoImportCompletions = true,
+              typeCheckingMode = 'basic',
+              autoImportCompletions = false,
               diagnosticSeverityOverrides = {
-                reportUnusedImport = "information",
-                reportUnusedVariable = "information",
+                reportUnusedImport = 'information',
+                reportUnusedVariable = 'information',
               },
             },
           },
@@ -151,7 +151,7 @@ return {
             analysis = {
               autoSearchPaths = true,
               useLibraryCodeForTypes = true,
-              autoImportCompletions = true,
+              autoImportCompletions = false,
             },
           },
         },
@@ -198,7 +198,7 @@ return {
     for server, cfg in pairs(servers) do
       -- For each LSP server (cfg), we merge:
       -- 1. A fresh empty table (to avoid mutating capabilities globally)
-       -- 2. Your capabilities object with Neovim + blink.cmp features
+      -- 2. Your capabilities object with Neovim + blink.cmp features
       -- 3. Any server-specific cfg.capabilities if defined in `servers`
       cfg.capabilities = vim.tbl_deep_extend('force', {}, capabilities, cfg.capabilities or {})
 
