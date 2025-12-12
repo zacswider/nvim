@@ -79,6 +79,13 @@ return {
           },
         },
       }
+      
+      -- Code block navigation keymaps
+      local opts = { noremap = true, silent = true }
+      vim.keymap.set('n', '<leader>bn', function() require('nvim-treesitter.textobjects.move').goto_next_start('@code_cell.inner') end, opts) -- jump to next code block
+      vim.keymap.set('n', '<leader>bp', function() require('nvim-treesitter.textobjects.move').goto_previous_start('@code_cell.inner') end, opts) -- jump to previous code block
+      vim.keymap.set('n', '<leader>bt', function() require('nvim-treesitter.textobjects.move').goto_previous_start('@code_cell.outer') end, opts) -- jump to top of current code block
+      vim.keymap.set('n', '<leader>bb', function() require('nvim-treesitter.textobjects.move').goto_next_end('@code_cell.outer') end, opts) -- jump to bottom of current code block
     end,
   },
   {
