@@ -18,9 +18,21 @@ return {
         'checkmake', -- linter for Makefiles
         'stylua', -- lua formatter; Already installed via Mason
         'ruff', -- Python linter and formatter; Already installed via Mason
-        'rustfmt', -- Rust formatter
       },
       automatic_installation = true,
+    }
+
+    -- Custom rustfmt with timeout to prevent hanging
+    local rustfmt = {
+      method = null_ls.methods.FORMATTING,
+      filetypes = { 'rust' },
+      generator = null_ls.formatter {
+        command = 'rustfmt',
+        args = { '--edition', '2021' },
+        to_stdin = true,
+        from_stderr = false,
+        timeout = 5000,
+      },
     }
 
     local sources = {
@@ -29,14 +41,14 @@ return {
       formatting.stylua,
       formatting.shfmt.with { args = { '-i', '4' } },
       formatting.terraform_fmt,
-      formatting.rustfmt,
+      rustfmt,
       require('none-ls.formatting.ruff').with { extra_args = { '--extend-select', 'I' } },
       require 'none-ls.formatting.ruff_format',
     }
 
     local augroup = vim.api.nvim_create_augroup('LspFormatting', {})
     null_ls.setup {
-      -- debug = true, -- Enable debug mode. Inspect logs with :NullLsLog.
+      debug = true, -- Enable debug mode. Inspect logs with :NullLsLog.
       sources = sources,
       -- you can reuse a shared lspconfig on_attach callback here
       on_attach = function(client, bufnr)
