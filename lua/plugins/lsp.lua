@@ -185,6 +185,23 @@ return {
           },
         },
       },
+      rust_analyzer = {
+        settings = {
+          ['rust-analyzer'] = {
+            checkOnSave = true,
+            inlayHints = {
+              enable = true,
+            },
+            cargo = {
+              allFeatures = true,
+              loadOutDirsFromCheck = true,
+            },
+            procMacro = {
+              enable = true,
+            },
+          },
+        },
+      },
     }
 
     -- Ensure the servers and tools above are installed
