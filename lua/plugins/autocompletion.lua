@@ -64,10 +64,10 @@ return {
       keyword = {
         range = 'prefix',
       },
-      -- debounce_ms = 50,
+      debounce_ms = 10,
       documentation = {
         auto_show = true,
-        auto_show_delay_ms = 50,
+        auto_show_delay_ms = 10,
       },
       ghost_text = {
         enabled = true,
@@ -103,8 +103,6 @@ return {
           module = 'blink.cmp.sources.lsp',
           score_offset = 1000, -- Prioritize LSP completions
           fallbacks = { 'buffer' },
-          async = true,
-          timeout_ms = 1500,
         },
         buffer = {
           name = 'Buffer',

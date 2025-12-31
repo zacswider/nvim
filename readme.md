@@ -18,3 +18,11 @@ clone with `git clone git@github.com:zacswider/nvim.git "${XDG_CONFIG_HOME:-$HOM
 
 - `brew install imagemagick`
 - `sudo apt install imagemagick`
+
+## install ty (Python LSP)
+
+ty is used for Python LSP features (go-to-definition, hover, completions, etc.). Install it via uv:
+
+- `uv tool install ty`
+
+This installs the `ty` executable to `~/.local/bin/`. Ensure this is in your `$PATH`.
