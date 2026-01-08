@@ -138,11 +138,29 @@ return {
       ty = {
         -- ty is installed via: uv tool install ty
         -- Using ty for LSP features (go-to-definition, hover, completions, etc.)
-        -- Diagnostics are disabled since ruff handles linting/type checking
+        -- Diagnostics disabled - basedpyright handles type checking
         settings = {
           ty = {
             diagnosticMode = 'off',
             showSyntaxErrors = false,
+          },
+        },
+      },
+      basedpyright = {
+        -- basedpyright for type checking diagnostics only
+        -- LSP features (hover, completions, go-to-def) are handled by ty
+        settings = {
+          basedpyright = {
+            analysis = {
+              typeCheckingMode = 'basic',
+              autoImportCompletions = false,
+              diagnosticSeverityOverrides = {
+                reportUnusedImport = 'information',
+                reportUnusedVariable = 'information',
+              },
+            },
+            -- Disable LSP features to avoid conflicts with ty
+            disableLanguageServices = true,
           },
         },
       },
