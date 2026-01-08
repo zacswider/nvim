@@ -1,6 +1,16 @@
 # To use on MacOS and Linux:
 
-clone with `git clone git@github.com:zacswider/nvim.git "${XDG_CONFIG_HOME:-$HOME/.config}"/nvim`
+## install nvim on Amazon Linux
+
+If nvim isn't installed, (`nvim --version`), run these commands:
+
+- `sudo yum -y install ninja-build cmake gcc make unzip gettext git`
+- `git clone https://github.com/neovim/neovim.git`
+- `cd neovim`
+- `git checkout master` (or anything >= version 0.12; as of Jan 2026 v0.12 was on master)
+- `make CMAKE_BUILD_TYPE=Release` (or `make CMAKE_BUILD_TYPE=RelWithDebInfo` if you want debug flags)
+- `sudo make install`
+- confirm version >= 0.12 with `nvim --version`
 
 ## install rust nightly
 
@@ -26,3 +36,7 @@ ty is used for Python LSP features (go-to-definition, hover, completions, etc.).
 - `uv tool install ty`
 
 This installs the `ty` executable to `~/.local/bin/`. Ensure this is in your `$PATH`.
+
+## Use this config for your install
+
+clone with `git clone git@github.com:zacswider/nvim.git "${XDG_CONFIG_HOME:-$HOME/.config}"/nvim`
