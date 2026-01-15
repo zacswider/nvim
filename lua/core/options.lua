@@ -18,6 +18,11 @@ vim.o.scrolloff = 99 -- Minimal number of screen lines to keep above and below t
 vim.o.sidescrolloff = 0 -- Minimal number of screen columns either side of cursor if wrap is `false` (default: 0)
 
 vim.o.cursorline = true -- Highlight the current line (default: false)
+vim.api.nvim_create_autocmd('ColorScheme', {
+  callback = function()
+    vim.api.nvim_set_hl(0, 'CursorLine', { bg = '#2a2a2a', blend = 30 })
+  end,
+})
 vim.o.signcolumn = 'yes' -- Always show the sign column to prevent screen shifting (default: 'auto')
 
 vim.o.splitbelow = true -- Force all horizontal splits to go below current window (default: false)
