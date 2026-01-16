@@ -47,6 +47,7 @@ require('lazy').setup {
   -- require 'plugins.copilot',
   require 'plugins.toggleterm',
   require 'plugins.scrolloff',
+  require 'plugins.dap',
 }
 
 -- Load autocmds
