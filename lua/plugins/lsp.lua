@@ -57,9 +57,16 @@ return {
         --  the definition of its *type*, not where it was *defined*.
         map('<leader>D', require('telescope.builtin').lsp_type_definitions, 'Type [D]efinition')
 
-        -- Fuzzy find all the symbols in your current document.
+        -- Fuzzy find all the symbols in your current document (or DAP step into when debugging)
         --  Symbols are things like variables, functions, types, etc.
-        map('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
+        map('<leader>ds', function()
+          local has_dap, dap = pcall(require, 'dap')
+          if has_dap and dap.session() then
+            dap.step_into()
+          else
+            require('telescope.builtin').lsp_document_symbols()
+          end
+        end, '[D]ocument [S]ymbols / Debug [S]tep')
 
         -- Fuzzy find all the symbols in your current workspace.
         --  Similar to document symbols, except searches over your entire project.
