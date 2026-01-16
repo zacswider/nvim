@@ -15,11 +15,22 @@ vim.keymap.set('n', '<leader>sn', '<cmd>noautocmd w <CR>', opts)
 -- quit file
 vim.keymap.set('n', '<C-q>', '<cmd> q <CR>', opts)
 
--- Resize with arrows
-vim.keymap.set('n', '<Up>', ':resize -2<CR>', opts)
-vim.keymap.set('n', '<Down>', ':resize +2<CR>', opts)
-vim.keymap.set('n', '<Right>', ':vertical resize -2<CR>', opts)
-vim.keymap.set('n', '<Left>', ':vertical resize +2<CR>', opts)
+-- Context-aware arrow keys: DAP stepping when debugging, window resize otherwise
+local function dap_or_fallback(dap_fn, fallback_cmd)
+  return function()
+    local has_dap, dap = pcall(require, 'dap')
+    if has_dap and dap.session() then
+      dap_fn()
+    else
+      vim.cmd(fallback_cmd)
+    end
+  end
+end
+
+vim.keymap.set('n', '<Up>', dap_or_fallback(function() require('dap').continue() end, 'resize -2'), { noremap = true, silent = true, desc = 'Resize up / DAP continue' })
+vim.keymap.set('n', '<Down>', dap_or_fallback(function() require('dap').step_over() end, 'resize +2'), { noremap = true, silent = true, desc = 'Resize down / DAP step over' })
+vim.keymap.set('n', '<Right>', dap_or_fallback(function() require('dap').step_into() end, 'vertical resize -2'), { noremap = true, silent = true, desc = 'Resize right / DAP step into' })
+vim.keymap.set('n', '<Left>', dap_or_fallback(function() require('dap').step_out() end, 'vertical resize +2'), { noremap = true, silent = true, desc = 'Resize left / DAP step out' })
 
 -- Buffers
 vim.keymap.set('n', '<leader><Tab>', ':bnext<CR>', opts)
