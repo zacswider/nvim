@@ -380,6 +380,16 @@ local M = {
     end,
   },
 }
+
+-- Set Neo-tree cursor line highlight to match main window opacity
+vim.api.nvim_create_autocmd('ColorScheme', {
+  callback = function()
+    vim.api.nvim_set_hl(0, 'NeoTreeCursorLine', { bg = '#2a2a2a', blend = 30 })
+  end,
+})
+-- Apply the highlight immediately
+vim.api.nvim_set_hl(0, 'NeoTreeCursorLine', { bg = '#2a2a2a', blend = 30 })
+
 vim.keymap.set('n', '<leader>e', '<Cmd>Neotree toggle<CR>')
 
 return M
