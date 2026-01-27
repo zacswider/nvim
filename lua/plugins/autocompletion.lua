@@ -64,7 +64,6 @@ return {
       keyword = {
         range = 'prefix',
       },
-      debounce_ms = 10,
       documentation = {
         auto_show = true,
         auto_show_delay_ms = 10,
