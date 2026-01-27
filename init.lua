@@ -45,6 +45,7 @@ require('lazy').setup {
   require 'plugins.notebook',
   require 'plugins.sidekick',
   -- require 'plugins.copilot',
+  require 'plugins.harpoon',
   require 'plugins.toggleterm',
   require 'plugins.scrolloff',
   require 'plugins.dap',
