@@ -18,6 +18,7 @@ return {
         'checkmake', -- linter for Makefiles
         'stylua', -- lua formatter; Already installed via Mason
         'ruff', -- Python linter and formatter; Already installed via Mason
+        'biome', -- ts/js formatter/linter
       },
       automatic_installation = true,
     }
@@ -38,6 +39,7 @@ return {
     local sources = {
       diagnostics.checkmake,
       formatting.prettier.with { filetypes = { 'html', 'json', 'yaml', 'markdown' } },
+      formatting.biome.with { filetypes = { 'typescript', 'typescriptreact', 'javascript', 'javascriptreact' } },
       formatting.stylua,
       formatting.shfmt.with { args = { '-i', '4' } },
       formatting.terraform_fmt,
