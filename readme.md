@@ -1,3 +1,9 @@
+This is my nvim config, use it if you want! It works best with nvim nightly and ghostty on MacOS, but I also install/use it on linux servers and it mostly works fine there too.
+
+# Use this config for your install
+
+clone with `git clone git@github.com:zacswider/nvim.git "${XDG_CONFIG_HOME:-$HOME/.config}"/nvim`
+
 # To use on MacOS and Linux:
 
 ## install nvim on Amazon Linux
@@ -36,7 +42,3 @@ ty is used for Python LSP features (go-to-definition, hover, completions, etc.).
 - `uv tool install ty`
 
 This installs the `ty` executable to `~/.local/bin/`. Ensure this is in your `$PATH`.
-
-## Use this config for your install
-
-clone with `git clone git@github.com:zacswider/nvim.git "${XDG_CONFIG_HOME:-$HOME/.config}"/nvim`
