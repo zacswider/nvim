@@ -1,6 +1,8 @@
 return {
   {
     'nvim-treesitter/nvim-treesitter',
+    branch = 'main',
+    commit = 'd660b7c002f3922b6bb3da47206645488a698426',
     build = ':TSUpdate',
     main = 'nvim-treesitter.configs',
     opts = {
