@@ -79,6 +79,12 @@ vim.keymap.set('n', '<C-j>', ':wincmd j<CR>', opts)
 vim.keymap.set('n', '<C-h>', ':wincmd h<CR>', opts)
 vim.keymap.set('n', '<C-l>', ':wincmd l<CR>', opts)
 
+-- Exit terminal mode and navigate splits with the same keys as normal mode
+vim.keymap.set('t', '<C-k>', '<C-\\><C-n>:wincmd k<CR>', opts)
+vim.keymap.set('t', '<C-j>', '<C-\\><C-n>:wincmd j<CR>', opts)
+vim.keymap.set('t', '<C-h>', '<C-\\><C-n>:wincmd h<CR>', opts)
+vim.keymap.set('t', '<C-l>', '<C-\\><C-n>:wincmd l<CR>', opts)
+
 -- Tabs
 vim.keymap.set('n', '<leader>to', ':tabnew<CR>', opts) -- open new tab
 vim.keymap.set('n', '<leader>tx', ':tabclose<CR>', opts) -- close current tab
