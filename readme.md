@@ -1,8 +1,23 @@
-This is my nvim config, use it if you want! It works best with nvim nightly and ghostty on MacOS, but I also install/use it on linux servers and it mostly works fine there too.
+This is my nvim config. There are many like it, but this one is mine. It works best with nvim nightly and ghostty on MacOS, but I regularly install/use it on linux servers and it mostly works fine there too.
 
 # Use this config for your install
 
-clone with `git clone git@github.com:zacswider/nvim.git "${XDG_CONFIG_HOME:-$HOME/.config}"/nvim`
+Delete (or move) your old config:
+
+```bash
+rm -rf ~/.config/nvim \
+       ~/.local/share/nvim \
+       ~/.local/state/nvim \
+       ~/.cache/nvim
+```
+
+Install this one:
+
+```bash
+git clone git@github.com:zacswider/nvim.git "${XDG_CONFIG_HOME:-$HOME/.config}"/nvim
+```
+
+You can edit the config directly now at `~/.config/nvim`
 
 # To use on MacOS and Linux:
 
