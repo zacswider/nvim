@@ -35,8 +35,6 @@ vim.keymap.set('n', '<Left>', dap_or_fallback(function() require('dap').step_out
 -- Buffers
 vim.keymap.set('n', '<leader><Tab>', ':bnext<CR>', opts)
 vim.keymap.set('n', '<leader><S-Tab>', ':bprevious<CR>', opts)
-vim.keymap.set('n', '<leader>x', ':bdelete!<CR>', opts) -- close buffer
-vim.keymap.set('n', '<leader>b', '<cmd> enew <CR>', opts) -- new buffer
 
 -- Window management
   vim.keymap.set('n', '<leader>sv', '<C-w>v', opts) -- split window vertically
