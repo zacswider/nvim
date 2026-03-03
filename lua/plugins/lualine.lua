@@ -60,7 +60,7 @@ return {
           { 'filetype', cond = hide_in_width },
         },
         lualine_y = { 'location' },
-        lualine_z = { 'progress' },
+        lualine_z = { 'progress', { require('opencode').statusline } },
       },
       inactive_sections = {
         lualine_a = {},

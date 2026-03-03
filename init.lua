@@ -49,6 +49,8 @@ require('lazy').setup {
   require 'plugins.toggleterm',
   require 'plugins.scrolloff',
   require 'plugins.dap',
+  require 'plugins.snacks',
+  require 'plugins.opencode',
 }
 
 -- Load autocmds
