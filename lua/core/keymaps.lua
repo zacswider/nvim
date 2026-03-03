@@ -35,8 +35,37 @@ vim.keymap.set('n', '<Left>', dap_or_fallback(function() require('dap').step_out
 -- Buffers
 vim.keymap.set('n', '<leader><Tab>', ':bnext<CR>', opts)
 vim.keymap.set('n', '<leader><S-Tab>', ':bprevious<CR>', opts)
-vim.keymap.set('n', '<leader>x', ':bdelete!<CR>', opts) -- close buffer
-vim.keymap.set('n', '<leader>b', '<cmd> enew <CR>', opts) -- new buffer
+vim.keymap.set('n', '<leader>bd', function()
+  local current_buf = vim.api.nvim_get_current_buf()
+  local current_ft = vim.bo[current_buf].filetype
+
+  if current_ft == 'neo-tree' then
+    if vim.fn.exists(':Neotree') == 2 then
+      vim.cmd 'Neotree close'
+    end
+    return
+  end
+
+  local neotree_visible = false
+
+  for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+    local buf = vim.api.nvim_win_get_buf(win)
+    if vim.bo[buf].filetype == 'neo-tree' then
+      neotree_visible = true
+      break
+    end
+  end
+
+  if neotree_visible and vim.fn.exists(':Neotree') == 2 then
+    vim.cmd 'Neotree close'
+  end
+
+  vim.cmd 'bdelete'
+
+  if neotree_visible and vim.fn.exists(':Neotree') == 2 then
+    vim.cmd 'Neotree show'
+  end
+end, opts) -- close current buffer; temporarily hide Neo-tree if visible
 
 -- Window management
   vim.keymap.set('n', '<leader>sv', '<C-w>v', opts) -- split window vertically
