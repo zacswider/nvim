@@ -50,11 +50,11 @@ return {
     end, { desc = 'Toggle opencode' })
 
     -- Scroll opencode session
-    vim.keymap.set('n', '<S-C-u>', function()
-      require('opencode').command('session.half.page.up')
+    vim.keymap.set('n', '<S-C-k>', function()
+      require('opencode').command 'session.half.page.up'
     end, { desc = 'Scroll opencode up' })
-    vim.keymap.set('n', '<S-C-d>', function()
-      require('opencode').command('session.half.page.down')
+    vim.keymap.set('n', '<S-C-j>', function()
+      require('opencode').command 'session.half.page.down'
     end, { desc = 'Scroll opencode down' })
   end,
 }
