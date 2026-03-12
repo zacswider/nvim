@@ -74,7 +74,10 @@ return {
         auto_show_delay_ms = 10,
       },
       ghost_text = {
-        enabled = true,
+        enabled = function()
+          local ok, api = pcall(require, 'supermaven-nvim.api')
+          return not (ok and api.is_running())
+        end,
       },
       trigger = {
         prefetch_on_insert = true,
