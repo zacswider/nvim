@@ -42,7 +42,7 @@ return {
       }
 
       -- Load the colorscheme
-      vim.cmd.colorscheme 'vscode'
+      require('vscode').load(theme_style)
     end
 
     -- Initial setup
