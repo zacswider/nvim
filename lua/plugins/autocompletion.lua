@@ -1,3 +1,25 @@
+local function termcode(key)
+  return vim.api.nvim_replace_termcodes(key, true, false, true)
+end
+
+local function is_supermaven_active()
+  local ok, api = pcall(require, 'supermaven-nvim.api')
+  return ok and api.is_running()
+end
+
+local function accept_supermaven_suggestion()
+  local ok, suggestion = pcall(require, 'supermaven-nvim.completion_preview')
+  if not ok or not suggestion.has_suggestion() then
+    return false
+  end
+
+  vim.schedule(function()
+    suggestion.on_accept_suggestion()
+  end)
+
+  return true
+end
+
 return {
   'saghen/blink.cmp',
   -- optional: provides snippets for the snippet source
@@ -28,7 +50,15 @@ return {
     keymap = {
       ['<C-space>'] = { 'show', 'show_documentation', 'hide_documentation' },
       ['<C-e>'] = { 'hide', 'fallback' },
-      ['<CR>'] = { 'accept', 'fallback' },
+      ['<CR>'] = {
+        function(cmp)
+          if is_supermaven_active() then
+            return termcode '<CR>'
+          end
+
+          return cmp.accept() or termcode '<CR>'
+        end,
+      },
 
       ['<Up>'] = { 'select_prev', 'fallback' },
       ['<Down>'] = { 'select_next', 'fallback' },
@@ -40,18 +70,25 @@ return {
 
       ['<Tab>'] = {
         function(cmp)
-          local ok, suggestion = pcall(require, 'supermaven-nvim.completion_preview')
-          if ok and suggestion.has_suggestion() then
-            vim.schedule(function()
-              suggestion.on_accept_suggestion()
-            end)
-            return true
+          if is_supermaven_active() then
+            return termcode '<Tab>'
           end
 
-          return cmp.snippet_active()
+          return cmp.accept() or termcode '<Tab>'
         end,
-        'snippet_forward',
-        'fallback',
+      },
+      ['<C-l>'] = {
+        function()
+          if not is_supermaven_active() then
+            return termcode '<C-l>'
+          end
+
+          if accept_supermaven_suggestion() then
+            return ''
+          end
+
+          return termcode '<C-l>'
+        end,
       },
       ['<S-Tab>'] = { 'select_prev', 'snippet_backward', 'fallback' },
 
@@ -75,8 +112,7 @@ return {
       },
       ghost_text = {
         enabled = function()
-          local ok, api = pcall(require, 'supermaven-nvim.api')
-          return not (ok and api.is_running())
+          return not is_supermaven_active()
         end,
       },
       trigger = {
