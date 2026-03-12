@@ -38,16 +38,21 @@ return {
       ['<C-b>'] = { 'scroll_documentation_up', 'fallback' },
       ['<C-f>'] = { 'scroll_documentation_down', 'fallback' },
 
-      -- ['<Tab>'] = {  -- sidekick autocompletion; trying to disable to see if it helps perf issues
-      --   'snippet_forward',
-      --   function() -- sidekick next edit suggestion
-      --     return require('sidekick').nes_jump_or_apply()
-      --   end,
-      --   function() -- if you are using Neovim's native inline completions
-      --     return vim.lsp.inline_completion.get()
-      --   end,
-      --   'fallback',
-      -- },
+      ['<Tab>'] = {
+        function(cmp)
+          local ok, suggestion = pcall(require, 'supermaven-nvim.completion_preview')
+          if ok and suggestion.has_suggestion() then
+            vim.schedule(function()
+              suggestion.on_accept_suggestion()
+            end)
+            return true
+          end
+
+          return cmp.snippet_active()
+        end,
+        'snippet_forward',
+        'fallback',
+      },
       ['<S-Tab>'] = { 'select_prev', 'snippet_backward', 'fallback' },
 
       ['<C-k>'] = { 'show_signature', 'hide_signature', 'fallback' },
