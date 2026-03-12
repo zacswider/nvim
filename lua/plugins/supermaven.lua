@@ -42,11 +42,32 @@ return {
     },
   },
   config = function()
+    local color = {
+      suggestion_color = '#9c5d6b',
+      cterm = 131,
+    }
+
     require('supermaven-nvim').setup {
       disable_keymaps = true,
       ignore_filetypes = {
         TelescopePrompt = true,
       },
+      color = color,
     }
+
+    local preview = require 'supermaven-nvim.completion_preview'
+    local function set_supermaven_highlight()
+      vim.api.nvim_set_hl(0, 'SupermavenSuggestion', {
+        fg = color.suggestion_color,
+        ctermfg = color.cterm,
+      })
+      preview.suggestion_group = 'SupermavenSuggestion'
+    end
+
+    set_supermaven_highlight()
+    vim.api.nvim_create_autocmd('ColorScheme', {
+      group = vim.api.nvim_create_augroup('supermaven-custom-highlight', { clear = true }),
+      callback = set_supermaven_highlight,
+    })
   end,
 }
