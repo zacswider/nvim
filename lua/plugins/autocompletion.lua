@@ -52,10 +52,6 @@ return {
       ['<C-e>'] = { 'hide', 'fallback' },
       ['<CR>'] = {
         function(cmp)
-          if is_supermaven_active() then
-            return termcode '<CR>'
-          end
-
           return cmp.accept() or termcode '<CR>'
         end,
       },
@@ -70,10 +66,6 @@ return {
 
       ['<Tab>'] = {
         function(cmp)
-          if is_supermaven_active() then
-            return termcode '<Tab>'
-          end
-
           return cmp.accept() or termcode '<Tab>'
         end,
       },
