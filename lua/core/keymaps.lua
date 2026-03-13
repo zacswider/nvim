@@ -5,6 +5,7 @@ vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 
 -- For conciseness
 local opts = { noremap = true, silent = true }
+local comments = require 'core.comments'
 
 -- save file with command-s like normal<D-s>
 vim.keymap.set('n', '<D-s>', '<cmd>w<CR>', opts)
@@ -102,6 +103,10 @@ vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
 -- Diagnostics
 vim.keymap.set('n', '<leader>do', '<cmd>lua vim.diagnostic.open_float()<CR>', { desc = 'open diagnostic float', noremap = true, silent = true })
+
+-- Comment editing
+vim.keymap.set('n', '<leader>cd', comments.delete_trailing_comment, { noremap = true, silent = true, desc = 'delete trailing comment' })
+vim.keymap.set('x', '<leader>cd', comments.delete_trailing_comments_in_selection, { noremap = true, silent = true, desc = 'delete trailing comments' })
 
 -- Function navigation
 vim.keymap.set('n', '<leader>ft', function() require('nvim-treesitter.textobjects.move').goto_previous_start('@function.outer') end, opts) -- jump to previous function top
