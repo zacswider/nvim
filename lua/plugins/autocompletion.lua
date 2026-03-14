@@ -1,3 +1,25 @@
+local function termcode(key)
+  return vim.api.nvim_replace_termcodes(key, true, false, true)
+end
+
+local function is_supermaven_active()
+  local ok, api = pcall(require, 'supermaven-nvim.api')
+  return ok and api.is_running()
+end
+
+local function accept_supermaven_suggestion()
+  local ok, suggestion = pcall(require, 'supermaven-nvim.completion_preview')
+  if not ok or not suggestion.has_suggestion() then
+    return false
+  end
+
+  vim.schedule(function()
+    suggestion.on_accept_suggestion()
+  end)
+
+  return true
+end
+
 return {
   'saghen/blink.cmp',
   -- optional: provides snippets for the snippet source
@@ -28,7 +50,11 @@ return {
     keymap = {
       ['<C-space>'] = { 'show', 'show_documentation', 'hide_documentation' },
       ['<C-e>'] = { 'hide', 'fallback' },
-      ['<CR>'] = { 'accept', 'fallback' },
+      ['<CR>'] = {
+        function(cmp)
+          return cmp.accept() or termcode '<CR>'
+        end,
+      },
 
       ['<Up>'] = { 'select_prev', 'fallback' },
       ['<Down>'] = { 'select_next', 'fallback' },
@@ -38,16 +64,24 @@ return {
       ['<C-b>'] = { 'scroll_documentation_up', 'fallback' },
       ['<C-f>'] = { 'scroll_documentation_down', 'fallback' },
 
-      -- ['<Tab>'] = {  -- sidekick autocompletion; trying to disable to see if it helps perf issues
-      --   'snippet_forward',
-      --   function() -- sidekick next edit suggestion
-      --     return require('sidekick').nes_jump_or_apply()
-      --   end,
-      --   function() -- if you are using Neovim's native inline completions
-      --     return vim.lsp.inline_completion.get()
-      --   end,
-      --   'fallback',
-      -- },
+      ['<Tab>'] = {
+        function(cmp)
+          return cmp.accept() or termcode '<Tab>'
+        end,
+      },
+      ['<C-l>'] = {
+        function()
+          if not is_supermaven_active() then
+            return termcode '<C-l>'
+          end
+
+          if accept_supermaven_suggestion() then
+            return ''
+          end
+
+          return termcode '<C-l>'
+        end,
+      },
       ['<S-Tab>'] = { 'select_prev', 'snippet_backward', 'fallback' },
 
       ['<C-k>'] = { 'show_signature', 'hide_signature', 'fallback' },
@@ -69,7 +103,9 @@ return {
         auto_show_delay_ms = 10,
       },
       ghost_text = {
-        enabled = true,
+        enabled = function()
+          return not is_supermaven_active()
+        end,
       },
       trigger = {
         prefetch_on_insert = true,
