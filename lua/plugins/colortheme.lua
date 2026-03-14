@@ -41,6 +41,8 @@ return {
         -- Override highlight groups if needed
         group_overrides = {
           FloatBorder = { fg = '#ffffff', bg = c.vscPopupBack },
+          BlinkCmpMenuBorder = { fg = '#ffffff', bg = c.vscPopupBack },
+          BlinkCmpSignatureHelpBorder = { fg = '#ffffff', bg = c.vscPopupBack },
         },
       }
 
