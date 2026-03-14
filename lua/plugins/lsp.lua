@@ -30,6 +30,10 @@ return {
     'saghen/blink.cmp',
   },
   config = function()
+    local hover_border = 'rounded'
+    vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, { border = hover_border })
+    vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = hover_border })
+
     vim.api.nvim_create_autocmd('LspAttach', {
       group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
       callback = function(event)
@@ -79,6 +83,11 @@ return {
         -- Execute a code action, usually your cursor needs to be on top of an error
         -- or a suggestion from your LSP for this to activate.
         map('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction', { 'n', 'x' })
+
+        -- Show hover documentation from the attached LSP.
+        map('K', function()
+          vim.lsp.buf.hover { border = 'rounded' }
+        end, 'Hover Documentation')
 
         -- WARN: This is not Goto Definition, this is Goto Declaration.
         --  For example, in C this would take you to the header.
