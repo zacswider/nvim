@@ -5,6 +5,7 @@ return {
   config = function()
     -- Set dark theme by default
     vim.o.background = 'dark'
+    local theme_style = vim.o.background
 
     -- Toggle background transparency
     local bg_transparent = false
@@ -13,6 +14,8 @@ return {
 
     local function setup_vscode()
       require('vscode').setup {
+        style = theme_style,
+
         -- Enable transparent background
         transparent = bg_transparent,
 
@@ -39,7 +42,7 @@ return {
       }
 
       -- Load the colorscheme
-      vim.cmd.colorscheme 'vscode'
+      require('vscode').load(theme_style)
     end
 
     -- Initial setup
@@ -50,6 +53,12 @@ return {
       setup_vscode()
     end
 
+    local toggle_theme = function()
+      theme_style = theme_style == 'dark' and 'light' or 'dark'
+      setup_vscode()
+    end
+
     vim.keymap.set('n', '<leader>bg', toggle_transparency, { noremap = true, silent = true })
+    vim.keymap.set('n', '<leader>tl', toggle_theme, { noremap = true, silent = true })
   end,
 }
