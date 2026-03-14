@@ -10,9 +10,10 @@ return {
     -- Toggle background transparency
     local bg_transparent = false
 
-    local c = require('vscode.colors').get_colors()
-
     local function setup_vscode()
+      vim.o.background = theme_style
+      local c = require('vscode.colors').get_colors()
+
       require('vscode').setup {
         style = theme_style,
 
@@ -38,7 +39,11 @@ return {
         color_overrides = {},
 
         -- Override highlight groups if needed
-        group_overrides = {},
+        group_overrides = {
+          FloatBorder = { fg = '#ffffff', bg = c.vscPopupBack },
+          BlinkCmpMenuBorder = { fg = '#ffffff', bg = c.vscPopupBack },
+          BlinkCmpSignatureHelpBorder = { fg = '#ffffff', bg = c.vscPopupBack },
+        },
       }
 
       -- Load the colorscheme
