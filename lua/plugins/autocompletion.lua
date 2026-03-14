@@ -95,6 +95,9 @@ return {
 
     -- (Default) Only show the documentation popup when manually triggered
     completion = {
+      menu = {
+        border = 'rounded',
+      },
       keyword = {
         range = 'prefix',
       },
