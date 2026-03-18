@@ -52,8 +52,9 @@ return {
       ['<C-e>'] = { 'hide', 'fallback' },
       ['<CR>'] = {
         function(cmp)
-          return cmp.accept() or termcode '<CR>'
+          return cmp.accept()
         end,
+        'fallback',
       },
 
       ['<Up>'] = { 'select_prev', 'fallback' },
