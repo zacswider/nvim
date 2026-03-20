@@ -45,7 +45,7 @@ return {
     end, { desc = 'Execute opencode action' })
 
     -- Toggle opencode terminal
-    vim.keymap.set({ 'n', 't' }, '<leader>ot', function()
+    vim.keymap.set('n', '<leader>ot', function()
       require('opencode').toggle()
     end, { desc = 'Toggle opencode' })
 
