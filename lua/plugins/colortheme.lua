@@ -40,9 +40,12 @@ return {
 
         -- Override highlight groups if needed
         group_overrides = {
-          FloatBorder = { fg = '#ffffff', bg = c.vscPopupBack },
-          BlinkCmpMenuBorder = { fg = '#ffffff', bg = c.vscPopupBack },
-          BlinkCmpSignatureHelpBorder = { fg = '#ffffff', bg = c.vscPopupBack },
+          CursorLine = { bg = '#2e2e2e', blend = 0 },
+          CursorLineNr = { fg = '#cccccc', bg = '#2e2e2e', bold = true },
+          NeoTreeCursorLine = { link = 'CursorLine' },
+          FloatBorder = { fg = '#38ab57', bg = c.vscPopupBack },
+          BlinkCmpMenuBorder = { fg = '#38ab57', bg = c.vscPopupBack },
+          BlinkCmpSignatureHelpBorder = { fg = '#38ab57', bg = c.vscPopupBack },
         },
       }
 
