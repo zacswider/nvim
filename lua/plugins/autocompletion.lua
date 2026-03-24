@@ -165,7 +165,7 @@ return {
       trigger = {
         enabled = true,
         show_on_trigger_character = true,
-        show_on_insert_on_trigger_character = true,
+        show_on_insert_on_trigger_character = false,
       },
       window = {
         min_width = 20,
