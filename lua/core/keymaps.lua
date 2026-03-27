@@ -61,7 +61,11 @@ vim.keymap.set('n', '<leader>bd', function()
     vim.cmd 'Neotree close'
   end
 
-  vim.cmd 'bdelete'
+  if vim.fn.exists ':Bdelete' == 2 then
+    vim.cmd 'Bdelete'
+  else
+    vim.cmd 'bdelete'
+  end
 
   if neotree_visible and vim.fn.exists(':Neotree') == 2 then
     vim.cmd 'Neotree show'
