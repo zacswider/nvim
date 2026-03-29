@@ -1,3 +1,8 @@
+local bufname = vim.api.nvim_buf_get_name(0)
+if bufname:match('%.ipynb$') then
+  require('quarto').activate()
+end
+
 -- Adjust text width for notebooks
 vim.opt_local.textwidth = 0 -- Disable auto hard-wrap while typing
 vim.opt_local.colorcolumn = '100' -- Show column guide
