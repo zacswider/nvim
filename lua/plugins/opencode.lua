@@ -27,9 +27,28 @@ return {
     },
   },
   config = function()
+    local opencode_port = 4097
+    local opencode_cmd = string.format('opencode --port %d', opencode_port)
+    local terminal_opts = {
+      split = 'right',
+      width = math.floor(vim.o.columns * 0.35),
+    }
+
     ---@type opencode.Opts
     vim.g.opencode_opts = {
-      -- Your configuration, if any; goto definition on the type or field for details
+      -- Pin the API port so opencode.nvim doesn't attach to a different Bun listener.
+      server = {
+        port = opencode_port,
+        start = function()
+          require('opencode.terminal').open(opencode_cmd, terminal_opts)
+        end,
+        stop = function()
+          require('opencode.terminal').close()
+        end,
+        toggle = function()
+          require('opencode.terminal').toggle(opencode_cmd, terminal_opts)
+        end,
+      },
     }
 
     vim.o.autoread = true -- Required for opts.events.reload
