@@ -28,6 +28,29 @@ local function dap_or_fallback(dap_fn, fallback_cmd)
   end
 end
 
+local function copy_visual_file_range()
+  local path = vim.api.nvim_buf_get_name(0)
+  if path == '' then
+    vim.notify('Current buffer has no file path', vim.log.levels.WARN)
+    return
+  end
+
+  local start_row = vim.fn.line 'v'
+  local end_row = vim.fn.line '.'
+
+  if start_row == 0 or end_row == 0 then
+    start_row = vim.fn.getpos("'<")[2]
+    end_row = vim.fn.getpos("'>")[2]
+  end
+
+  if start_row > end_row then
+    start_row, end_row = end_row, start_row
+  end
+
+  local text = string.format('%s:L%d-L%d:', vim.fn.fnamemodify(path, ':~'), start_row, end_row)
+  vim.fn.setreg('+', text)
+end
+
 vim.keymap.set('n', '<Up>', dap_or_fallback(function() require('dap').continue() end, 'resize -2'), { noremap = true, silent = true, desc = 'Resize up / DAP continue' })
 vim.keymap.set('n', '<Down>', dap_or_fallback(function() require('dap').step_over() end, 'resize +2'), { noremap = true, silent = true, desc = 'Resize down / DAP step over' })
 vim.keymap.set('n', '<Right>', dap_or_fallback(function() require('dap').step_into() end, 'vertical resize -2'), { noremap = true, silent = true, desc = 'Resize right / DAP step into' })
@@ -111,6 +134,7 @@ vim.keymap.set('n', '<leader>do', '<cmd>lua vim.diagnostic.open_float()<CR>', { 
 -- Comment editing
 vim.keymap.set('n', '<leader>cd', comments.delete_trailing_comment, { noremap = true, silent = true, desc = 'delete trailing comment' })
 vim.keymap.set('x', '<leader>cd', comments.delete_trailing_comments_in_selection, { noremap = true, silent = true, desc = 'delete trailing comments' })
+vim.keymap.set('x', '<leader>cr', copy_visual_file_range, { noremap = true, silent = true, desc = 'copy file range' })
 
 -- Function navigation
 vim.keymap.set('n', '<leader>ft', function() require('nvim-treesitter.textobjects.move').goto_previous_start('@function.outer') end, opts) -- jump to previous function top
