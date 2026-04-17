@@ -1,136 +1,118 @@
 return {
-  'nvimtools/none-ls.nvim',
-  dependencies = {
-    'nvimtools/none-ls-extras.nvim',
-    'jayp0521/mason-null-ls.nvim', -- ensure dependencies are installed
+  'stevearc/conform.nvim',
+  event = { 'BufWritePre' },
+  cmd = { 'ConformInfo' },
+  keys = {
+    {
+      '<leader>tf',
+      function()
+        vim.g.disable_autoformat = not vim.g.disable_autoformat
+        if vim.g.disable_autoformat then
+          vim.notify('Conform autoformat disabled', vim.log.levels.INFO)
+        else
+          vim.notify('Conform autoformat enabled', vim.log.levels.INFO)
+        end
+      end,
+      mode = 'n',
+      desc = 'Toggle autoformat',
+    },
+    {
+      '<leader>fm',
+      function()
+        require('conform').format { async = true, lsp_format = 'fallback' }
+      end,
+      mode = { 'n', 'x' },
+      desc = 'Format buffer or range',
+    },
+    {
+      '<leader>fd',
+      function()
+        if vim.bo.filetype ~= 'python' then
+          vim.notify('Docstring formatting is only configured for Python files', vim.log.levels.WARN)
+          return
+        end
+        require('conform').format {
+          async = true,
+          lsp_format = 'never',
+          formatters = { 'docformatter', 'ruff_format' },
+        }
+      end,
+      mode = 'n',
+      desc = 'Format Python docstrings',
+    },
   },
-  config = function()
-    local null_ls = require 'null-ls'
-    local formatting = null_ls.builtins.formatting -- to setup formatters
-    local diagnostics = null_ls.builtins.diagnostics -- to setup linters
-    local biome_filetypes = {
-      javascript = true,
-      javascriptreact = true,
-      typescript = true,
-      typescriptreact = true,
-    }
-
-    local function is_biome_filetype(filetype)
-      return biome_filetypes[filetype] == true
-    end
-
-    local function biome_root(bufnr)
-      local path = vim.api.nvim_buf_get_name(bufnr)
-      if path == '' then
-        return nil
-      end
-
-      return vim.fs.root(path, { 'biome.json', 'biome.jsonc', 'package.json', '.git' })
-    end
-
-    local function biome_check_current_file(bufnr)
-      local path = vim.api.nvim_buf_get_name(bufnr)
-      if path == '' then
+  opts = {
+    notify_on_error = true,
+    default_format_opts = {
+      lsp_format = 'fallback',
+    },
+    format_on_save = function(bufnr)
+      if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
         return
       end
 
-      local root = biome_root(bufnr)
-      if not root then
+      local name = vim.api.nvim_buf_get_name(bufnr)
+      if name:match '/node_modules/' then
         return
       end
 
-      local result = vim.system({
-        'bunx',
-        'biome',
-        'check',
-        '--write',
-        '--unsafe',
-        '--no-errors-on-unmatched',
-        '--files-ignore-unknown=true',
-        path,
-      }, { cwd = root }):wait()
-
-      if result.code ~= 0 then
-        vim.schedule(function()
-          vim.notify(result.stderr ~= '' and result.stderr or 'Biome check reported issues on save', vim.log.levels.WARN)
-        end)
-      end
-
-      if vim.api.nvim_buf_is_valid(bufnr) then
-        vim.schedule(function()
-          if vim.api.nvim_buf_is_valid(bufnr) then
-            vim.api.nvim_buf_call(bufnr, function()
-              vim.cmd 'checktime'
-            end)
-          end
-        end)
-      end
-    end
-
-    -- Formatters & linters for mason to install
-    require('mason-null-ls').setup {
-      ensure_installed = {
-        'prettier', -- ts/js formatter
-        'eslint_d', -- ts/js linter
-        'shfmt', -- Shell formatter
-        'checkmake', -- linter for Makefiles
-        'stylua', -- lua formatter; Already installed via Mason
-        'ruff', -- Python linter and formatter; Already installed via Mason
-        'biome', -- ts/js formatter/linter
+      return {
+        timeout_ms = 1500,
+        lsp_format = 'fallback',
+      }
+    end,
+    formatters_by_ft = {
+      lua = { 'stylua' },
+      python = { 'ruff_fix', 'docformatter', 'ruff_format' },
+      rust = { 'rustfmt' },
+      javascript = { 'biome', 'prettierd', 'prettier', stop_after_first = true },
+      javascriptreact = { 'biome', 'prettierd', 'prettier', stop_after_first = true },
+      typescript = { 'biome', 'prettierd', 'prettier', stop_after_first = true },
+      typescriptreact = { 'biome', 'prettierd', 'prettier', stop_after_first = true },
+      json = { 'biome', 'prettierd', 'prettier', stop_after_first = true },
+      yaml = { 'prettierd', 'prettier', stop_after_first = true },
+      markdown = { 'prettierd', 'prettier', stop_after_first = true },
+      html = { 'prettierd', 'prettier', stop_after_first = true },
+      sh = { 'shfmt' },
+      terraform = { 'terraform_fmt' },
+    },
+    formatters = {
+      docformatter = {
+        append_args = {
+          '--pre-summary-newline',
+          '--close-quotes-on-newline',
+          '--wrap-summaries',
+          '100',
+          '--wrap-descriptions',
+          '100',
+        },
       },
-      automatic_installation = true,
-    }
-
-    -- Custom rustfmt with timeout to prevent hanging
-    local rustfmt = {
-      method = null_ls.methods.FORMATTING,
-      filetypes = { 'rust' },
-      generator = null_ls.formatter {
-        command = 'rustfmt',
-        args = { '--edition', '2021' },
-        to_stdin = true,
-        from_stderr = false,
-        timeout = 5000,
+      ruff_fix = {
+        append_args = { '--extend-select', 'I' },
       },
-    }
+    },
+  },
+  config = function(_, opts)
+    require('conform').setup(opts)
 
-    local sources = {
-      diagnostics.checkmake,
-      formatting.prettier.with { filetypes = { 'html', 'json', 'yaml', 'markdown' } },
-      formatting.stylua,
-      formatting.shfmt.with { args = { '-i', '4' } },
-      formatting.terraform_fmt,
-      rustfmt,
-      require('none-ls.formatting.ruff').with { extra_args = { '--extend-select', 'I' } },
-      require 'none-ls.formatting.ruff_format',
-    }
+    vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
 
-    local augroup = vim.api.nvim_create_augroup('LspFormatting', {})
-    null_ls.setup {
-      debug = true, -- Enable debug mode. Inspect logs with :NullLsLog.
-      sources = sources,
-      -- you can reuse a shared lspconfig on_attach callback here
-      on_attach = function(client, bufnr)
-        if client:supports_method 'textDocument/formatting' and not is_biome_filetype(vim.bo[bufnr].filetype) then
-          vim.api.nvim_clear_autocmds { group = augroup, buffer = bufnr }
-          vim.api.nvim_create_autocmd('BufWritePre', {
-            group = augroup,
-            buffer = bufnr,
-            callback = function()
-              vim.lsp.buf.format { async = false }
-            end,
-          })
-        end
-      end,
-    }
+    vim.api.nvim_create_user_command('FormatDisable', function(args)
+      if args.bang then
+        vim.b.disable_autoformat = true
+      else
+        vim.g.disable_autoformat = true
+      end
+    end, {
+      desc = 'Disable format-on-save',
+      bang = true,
+    })
 
-    vim.api.nvim_create_autocmd('BufWritePost', {
-      group = vim.api.nvim_create_augroup('BiomeCheckOnSave', { clear = true }),
-      callback = function(args)
-        if is_biome_filetype(vim.bo[args.buf].filetype) then
-          biome_check_current_file(args.buf)
-        end
-      end,
+    vim.api.nvim_create_user_command('FormatEnable', function()
+      vim.b.disable_autoformat = false
+      vim.g.disable_autoformat = false
+    end, {
+      desc = 'Enable format-on-save',
     })
   end,
 }
