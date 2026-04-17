@@ -43,6 +43,7 @@ require('lazy').setup {
   require 'plugins.indentation_and_scope',
   require 'plugins.misc',
   require 'plugins.markview',
+  require 'plugins.pydochide',
   require 'plugins.notebook',
   require 'plugins.sidekick',
   -- require 'plugins.copilot',
