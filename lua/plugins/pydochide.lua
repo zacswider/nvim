@@ -1,5 +1,5 @@
 return {
-  dir = vim.fn.stdpath 'config' .. '/context/pydochide.nvim',
+  'camAtGitHub/pydochide.nvim',
   name = 'pydochide.nvim',
   ft = 'python',
   keys = {
