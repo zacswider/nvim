@@ -6,7 +6,14 @@ return {
     {
       '<leader>td',
       function()
-        vim.cmd 'PyDocHideToggle'
+        if vim.wo.foldenable then
+          vim.cmd 'normal! zE'
+          vim.wo.foldenable = false
+          return
+        end
+
+        vim.wo.foldenable = true
+        vim.cmd 'PyDocHide'
       end,
       desc = 'Toggle Python docstring hiding',
     },
