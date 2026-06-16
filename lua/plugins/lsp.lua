@@ -149,6 +149,7 @@ return {
       copilot = {
         filetypes = { '*' },
       },
+      clangd = {},
       ts_ls = {},
       ruff = {},
       ty = {

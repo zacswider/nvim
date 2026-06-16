@@ -8,6 +8,8 @@ return {
     opts = {
       ensure_installed = {
         'lua',
+        'c',
+        'cpp',
         'python',
         'javascript',
         'typescript',
