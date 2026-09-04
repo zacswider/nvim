@@ -52,6 +52,7 @@ require('lazy').setup {
   require 'plugins.scrolloff',
   require 'plugins.dap',
   require 'plugins.snacks',
+  require 'plugins.codex',
   require 'plugins.opencode',
 }
 
